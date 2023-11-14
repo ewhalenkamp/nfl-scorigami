@@ -1,0 +1,75 @@
+$grid-size: 10px;
+$large-grid-size: (
+  $grid-size + 4
+);
+$score-size: 52;
+
+body {
+  margin: 0;
+}
+
+.item {
+  .innerBox {
+    background-color: black;
+    min-width: $grid-size;
+    min-height: $grid-size;
+    margin: 2px 2px;
+    transition: width .5s, height .5s;
+  }
+
+  &:hover {
+    .innerBox {
+      margin: 0 0 0 0;
+      width: $large-grid-size;
+      height: $large-grid-size;
+    }
+  }
+}
+
+.dialog {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  transform: translateX(calc(-50% + $large-grid-size / 2)) translateY(calc(-1 * ($large-grid-size) - 100%));
+  opacity: 0;
+  z-index: 5;
+  background-color: white;
+  transition: opacity 0.5s;
+}
+
+.row {
+  display: flex;
+  min-height: $grid-size;
+
+  &:hover {
+    background-color: #83e2e8;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
+.outer-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 75%;
+  text-align: center;
+}
+
+.column-underlay {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  top: 0;
+  z-index: -1;
+
+  div {
+    width: $large-grid-size;
+    height: ($large-grid-size * $score-size);
+  }
+}

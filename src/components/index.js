@@ -1,0 +1,1 @@
+export { default as ScorigamiMatrix } from "./scorigamiMatrix.jsx";
