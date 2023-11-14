@@ -38,17 +38,20 @@ const findSurrounding = (x, y, dist) => {
 
 function ScoreDialog({ matrix, coords }) {
     const dialogRef = useRef();
+    const [gameData, setGameData] = useState();
     const [col, row] = coords ? coords : [undefined, undefined];
 
     const timeout = useRef();
 
     useEffect(() => {
+        setGameData(matrix && row && col && matrix[row][col].length > 0 ? matrix[row][col][0] : null);
+
         if (col !== undefined && row !== undefined) {
             const parent = document.getElementById(`score-${col}-${row}`);
             if (parent) {
                 parent.appendChild(dialogRef.current);
             }
-            dialogRef.current.style["z-index"] = 5;
+            dialogRef.current.style["z-index"] = 50;
             timeout.current = setTimeout(() => {
                 dialogRef.current.style.opacity = 1;
             }, 100);
@@ -59,13 +62,15 @@ function ScoreDialog({ matrix, coords }) {
         }
     }, [col, row]);
 
+    const [t1, t2] = gameData ? gameData : [undefined, undefined];
+
     return <div
         id="score-dialog"
         className="dialog"
         ref={dialogRef}
     >
-        {col && row ? <h2>{col}-{row}</h2> : null}
-    </div>;
+        {t1 && `${t1.team.name} (${t1.score}) vs. ${t2.team.name} (${t2.score})`}
+    </div >;
 }
 
 function ScorigamiMatrixRow({ row, rowIndex, updateItem }) {
@@ -120,7 +125,7 @@ function ScorigamiMatrixRow({ row, rowIndex, updateItem }) {
                     cancelDialog(i);
                 }}
             >
-                <div id={`innerBox-${i}-${rowIndex}`} className="innerBox" />
+                <div id={`innerBox-${i}-${rowIndex}`} className={`innerBox${item.length > 0 ? " active" : ""}`} />
             </div>
         ))}
     </div>
@@ -145,7 +150,7 @@ export default function ScorigamiMatrix({ matrix }) {
         <div className="column-underlay">
             {generateColumns(74, "underlay-col")}
         </div>
-        {matrix.map((row, i) => (<ScorigamiMatrixRow row={row} rowIndex={i} updateItem={updateItem} />))}
+        {matrix.map((row, i) => (<ScorigamiMatrixRow row={row} key={`row-${i}`} rowIndex={i} updateItem={updateItem} />))}
         <ScoreDialog matrix={matrix} coords={current} />
     </div>;
 }

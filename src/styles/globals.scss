@@ -1,6 +1,10 @@
-$grid-size: 10px;
-$large-grid-size: (
-  $grid-size + 4
+$grid-size-x: 15px;
+$grid-size-y: 10px;
+$large-grid-size-x: (
+  $grid-size-x + 4
+);
+$large-grid-size-y: (
+  $grid-size-y + 4
 );
 $score-size: 52;
 
@@ -10,18 +14,22 @@ body {
 
 .item {
   .innerBox {
-    background-color: black;
-    min-width: $grid-size;
-    min-height: $grid-size;
+    background-color: gray;
+    min-width: $grid-size-x;
+    min-height: $grid-size-y;
     margin: 2px 2px;
     transition: width .5s, height .5s;
+
+    &.active {
+      background-color: black;
+    }
   }
 
   &:hover {
     .innerBox {
       margin: 0 0 0 0;
-      width: $large-grid-size;
-      height: $large-grid-size;
+      width: $large-grid-size-x;
+      height: $large-grid-size-y;
     }
   }
 }
@@ -30,26 +38,32 @@ body {
   position: absolute;
   width: 100px;
   height: 100px;
-  transform: translateX(calc(-50% + $large-grid-size / 2)) translateY(calc(-1 * ($large-grid-size) - 100%));
+  transform: translateX(calc(-50% + $large-grid-size-x / 2)) translateY(calc(-1 * ($large-grid-size-y) - 100%));
   opacity: 0;
-  z-index: 5;
+  z-index: 50;
   background-color: white;
   transition: opacity 0.5s;
+  border: 5px solid black;
+  padding: 10px;
 }
 
 .row {
   display: flex;
-  min-height: $grid-size;
+  min-height: $grid-size-y;
+  min-width: fit-content;
 
   &:hover {
     background-color: #83e2e8;
   }
 }
 
+.scroll-container {
+  overflow-x: scroll;
+}
+
 .container {
   display: flex;
   flex-direction: column;
-  align-items: center;
   position: relative;
 }
 
@@ -57,7 +71,7 @@ body {
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  width: 75%;
+  width: 80%;
   text-align: center;
 }
 
@@ -69,7 +83,7 @@ body {
   z-index: -1;
 
   div {
-    width: $large-grid-size;
-    height: ($large-grid-size * $score-size);
+    width: $large-grid-size-x;
+    height: ($large-grid-size-y * $score-size);
   }
 }
